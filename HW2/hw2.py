@@ -51,7 +51,7 @@ def sto(x,y):
     loop_max = 10000
     theta = np.random.rand(2,1)
     batch_size = 10
-    epsilon = 25
+    epsilon = 30
     learning_rate = 0.01
     j=np.zeros(loop_max)
     zz=loop_max
@@ -77,7 +77,7 @@ def batch(x,y):
     plt.plot(x,y,"ro")
     x_1=mCo(x,1)
     loop_max = 10000
-    epsilon = 25
+    epsilon = 30
     #theta1 = np.random.rand(2, 1)
     theta=np.zeros(2)
     theta=theta.reshape(2,1)
@@ -113,10 +113,10 @@ def main():
     plt.figure(4)
     plt.title("MSE batch")
     ix=np.arange(0,max(f1,f2),1)
-    plt.plot(ix,m1[:max(f1,f2)],"b")
-    plt.figure(5)
-    plt.title("MSE sto")
-    plt.plot(ix,m2[:max(f1,f2)],"g")
+    plt.plot(ix[:f1],m1[:f1],color="blue")
+   # plt.figure(5)
+    #plt.title("MSE sto")
+    plt.plot(ix[:f2],m2[:f2],"g")
     plt.show()
 
 
