@@ -18,7 +18,7 @@ def Read():
 
 def normalEqui(x,y,deg):
     plt.figure(1)
-    plt.title("normalequation")
+    plt.title("normal equation")
     plt.plot(x,y,"ro")
     l=4
     xn=x.reshape(x.size)
@@ -44,18 +44,19 @@ def mCo(x,deg):
 
 def sto(x,y):
     plt.figure(3)
-    plt.title("sto learning rate = 0.005")
+    plt.title("sto learning rate = 0.02")
     plt.plot(x,y,"ro")
     X=mCo(x,1)
     Y=y
     loop_max = 10000
-    theta = np.random.rand(2,1)
+    
     batch_size = 10
-    epsilon = 25
-    learning_rate = 0.08
-    j=np.zeros([loop_max,5])
+    epsilon = 30
+    learning_rate = 0.025
+    j=np.zeros([loop_max,4])
     zz=0
-    for jj in range(5):
+    for jj in range(4):
+        theta = np.random.rand(2,1)
         for i in range(loop_max):
             idxs = np.random.randint(0,X.shape[0],size=batch_size)
             tmp_X = X.take(idxs,axis=0)
@@ -67,7 +68,7 @@ def sto(x,y):
                 print("ok")
                 zz=max(zz,i)
                 break
-        learning_rate=learning_rate/2
+        learning_rate=learning_rate-0.00125
     #print(theta)
     if(zz==0):
         zz=loop_max
@@ -77,21 +78,21 @@ def sto(x,y):
 
 def batch(x,y):
     plt.figure(2)
-    plt.title("batch  learning rate = 0.005")
+    plt.title("batch  learning rate = 0.02")
     plt.plot(x,y,"ro")
     x_1=mCo(x,1)
     loop_max = 10000
-    epsilon = 25
+    epsilon = 30
     #theta1 = np.random.rand(2, 1)
-    theta=np.zeros(2)
-    theta=theta.reshape(2,1)
+    
     y=y.reshape(y.size,1)
-    learning_rate = 0.08
-    j=np.zeros([loop_max,5])
+    learning_rate = 0.025
+    j=np.zeros([loop_max,4])
     zz=loop_max
-    for jj in range(5):
+    for jj in range(4):
+        theta=np.zeros([2,1])
         for i in range(loop_max):
-            grad = np.dot(x_1.T, (np.dot(x_1, theta) - y)) / 96
+            grad = np.dot(x_1.T, (np.dot(x_1, theta) - y)) /y.size
             theta = theta - learning_rate * grad
             j[i][jj] = np.linalg.norm(np.dot(x_1, theta) - y)
 
@@ -100,7 +101,7 @@ def batch(x,y):
                 print("ok")
                 zz=max(zz,i)
                 break
-        learning_rate=learning_rate/2
+        learning_rate=learning_rate-0.00125
     #print(theta)
     if(zz==0):
         zz=loop_max
@@ -120,11 +121,29 @@ def main():
     m2,f2=sto(x,y)
     plt.figure(4)
     plt.title("MSE batch")
-    ix=np.arange(0,max(f1,f2),1)
-    plt.plot(ix,m1[:max(f1,f2)],"b")
+    f1=200
+    ix=np.arange(0,f1,1)
+    plt.axis([0, f1, 0, 200])
+    
+    for i in range(4):
+        y2=m1[:f1,i]
+        st='#'+'00'+hex(250-40*i)[2:]+hex(40*i+120)[2:]
+        la=str(0.025-0.00125*i)[:7]
+        #plt.legend(la)
+        plt.plot(ix,y2,label=la,color=st)
+    plt.legend()
     plt.figure(5)
     plt.title("MSE sto")
-    plt.plot(ix,m2[:max(f1,f2)],"g")
+    f2=200
+    ix=np.arange(0,f2,1)
+    plt.axis([0, f2, 0, 200])
+    
+    for i in range(4):
+        y2=m1[:f2,i]
+        st='#'+hex(250-40*i)[2:]+hex(50*i+50)[2:]+'00'
+        la='rate= '+str(0.025-0.00125*i)[:7]
+        plt.plot(ix,y2,label =la ,color=st)
+    plt.legend()
     plt.show()
 
 
