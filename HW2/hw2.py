@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import math
 
-
 plt.style.use('seaborn-whitegrid') 
 
 def Read():
